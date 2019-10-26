@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native'
+import { handleSaveDeckTitle } from '../actions';
+import { connect } from 'react-redux'
 
-export default class NewDeck extends Component {
+class NewDeck extends Component {
     state = {
         input: ''
     }
     handleChange = (input) => {
         this.setState({ input })
     }
-    onPress = () => {
-
+    submit = () => {
+        this.props.dispatch(handleSaveDeckTitle(this.state.input));
+        this.props.navigation.goBack();
     }
     render() {
         const { input } = this.state;
@@ -17,11 +20,11 @@ export default class NewDeck extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.heading}>What is the title of the new Deck?</Text>
-                <TextInput onChange={this.handleChange} value={input} style={styles.input} />
+                <TextInput onChangeText={this.handleChange} value={input} style={styles.input} />
                 <TouchableOpacity onPress={this.submit} style={
                     Platform.OS === "ios" ? styles.iosSubmitBtn : styles.AndroidSubmitBtn
                 }>
-                    <Text>Submit</Text>
+                    <Text style={{ color: 'white' }}>Submit</Text>
                 </TouchableOpacity>
             </View>)
     }
@@ -31,8 +34,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'center',
         backgroundColor: '#F5FCFF',
+        padding: 20
 
     },
     heading: {
@@ -43,10 +46,10 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         color: "black",
-        width: "80%",
+        justifyContent: 'flex-start',
         borderRadius: 5,
         borderColor: "gray",
-        padding: 10
+        height: 45,
 
     },
     iosSubmitBtn: {
@@ -56,7 +59,8 @@ const styles = StyleSheet.create({
         height: 45,
         marginLeft: 40,
         marginRight: 40,
-        marginTop: 50
+        marginTop: 50,
+
     },
     AndroidSubmitBtn: {
         backgroundColor: 'green',
@@ -67,6 +71,9 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 50
+        marginTop: 50,
+
     },
 });
+
+export default connect()(NewDeck);

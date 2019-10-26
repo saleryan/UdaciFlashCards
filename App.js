@@ -6,6 +6,10 @@ import { FontAwesome } from '@expo/vector-icons'
 import Decks from './components/Decks';
 import NewDeck from './components/NewDeck'
 import Constants from 'expo-constants'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import reducer from './reducers';
+import middleware from './middleware'
 
 const Tabs = createAppContainer(createBottomTabNavigator({
   Decks: {
@@ -52,11 +56,14 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
 export default class App extends Component {
 
   render() {
+    const store = createStore(reducer, middleware);
     return (
-      <View style={styles.container}>
-        <UdaciStatusBar backgroundColor={'green'} barStyle="light-content" />
-        <Tabs />
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <UdaciStatusBar backgroundColor={'green'} barStyle="light-content" />
+          <Tabs />
+        </View>
+      </Provider>
 
     );
   }
