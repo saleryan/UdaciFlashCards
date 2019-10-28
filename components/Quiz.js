@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { FontAwesome } from '@expo/vector-icons'
 import TextButton from './TextButton';
+import { clearLocalNotification } from '../utils/helpers'
 
 class Quiz extends Component {
     state = {
@@ -59,6 +60,7 @@ class Quiz extends Component {
             )
         }
         if (index > questions.length - 1) {
+            clearLocalNotification();
             const percentScore = score / questions.length * 100;
             return (
                 <View style={styles.noCardsContainer}>

@@ -13,6 +13,7 @@ class NewDeck extends Component {
     }
     submit = () => {
         this.props.dispatch(handleSaveDeckTitle(this.state.input));
+        this.setState({ input: '' })
         this.props.navigation.goBack();
     }
     render() {

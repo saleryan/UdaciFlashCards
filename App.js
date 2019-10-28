@@ -14,6 +14,7 @@ import middleware from './middleware'
 import { createStackNavigator } from 'react-navigation-stack';
 import NewCard from './components/NewCard'
 import Quiz from './components/Quiz'
+import { setLocalNotification } from './utils/helpers'
 
 
 const Tabs = createAppContainer(createBottomTabNavigator({
@@ -101,7 +102,9 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
   )
 }
 export default class App extends Component {
-
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     const store = createStore(reducer, middleware);
     return (
