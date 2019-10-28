@@ -17,7 +17,7 @@ class DeckDetail extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.subTitle}>{cards} cards</Text>
+                <Text style={styles.subTitle}>{cards} {cards === 1 ? 'card' : 'cards'}</Text>
                 <TextButton onPress={this.addCard} >
                     Add Card
             </TextButton>

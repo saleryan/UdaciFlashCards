@@ -11,7 +11,7 @@ class Decks extends Component {
                     { title: item.title }
                 )}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.subTitle}>{item.cards} cards</Text>
+                <Text style={styles.subTitle}>{item.cards} {item.cards === 1 ? 'card' : 'cards'}</Text>
             </TouchableOpacity>
         )
     }
