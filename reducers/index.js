@@ -19,7 +19,7 @@ export default function decks(state = {}, action) {
                 ...state,
                 [action.title]: {
                     title: action.title,
-                    questions: [...state[action.title].questions, card]
+                    questions: [...state[action.title].questions, action.question]
                 }
 
             }

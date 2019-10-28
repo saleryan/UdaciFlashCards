@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, StatusBar } from 'react-native';
+import { Platform, StyleSheet, View, StatusBar, Dimensions } from 'react-native';
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { FontAwesome } from '@expo/vector-icons'
 import Decks from './components/Decks';
 import NewDeck from './components/NewDeck'
+import DeckDetail from './components/DeckDetail'
 import Constants from 'expo-constants'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import reducer from './reducers';
 import middleware from './middleware'
+import { createStackNavigator } from 'react-navigation-stack';
+import NewCard from './components/NewCard'
+import Quiz from './components/Quiz'
+
 
 const Tabs = createAppContainer(createBottomTabNavigator({
   Decks: {
@@ -46,6 +51,48 @@ const Tabs = createAppContainer(createBottomTabNavigator({
   }
 }));
 
+const MainNavigator = createAppContainer(createStackNavigator({
+  Home: {
+    screen: Tabs,
+    navigationOptions: {
+      header: null
+    }
+  },
+  DeckDetail: {
+    screen: DeckDetail,
+    navigationOptions: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'green',
+      },
+      headerTitleStyle: { width: Dimensions.get("window").width },
+      title: 'Card Detail'
+    }
+  },
+  NewCard: {
+    screen: NewCard,
+    navigationOptions: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'green',
+      },
+      headerTitleStyle: { width: Dimensions.get("window").width },
+      title: 'Add Card'
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'green',
+      },
+      headerTitleStyle: { width: Dimensions.get("window").width },
+      title: 'Quiz'
+    }
+  }
+}));
+
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -61,7 +108,7 @@ export default class App extends Component {
       <Provider store={store}>
         <View style={styles.container}>
           <UdaciStatusBar backgroundColor={'green'} barStyle="light-content" />
-          <Tabs />
+          <MainNavigator />
         </View>
       </Provider>
 

@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList, Text } from 'react-native'
+import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
 class Decks extends Component {
     renderData = ({ item }) => {
-        return (<View style={styles.deck}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subTitle}>{item.cards} cards</Text>
-        </View>
+        return (
+            <TouchableOpacity style={styles.deck} onPress=
+                {() => this.props.navigation.navigate(
+                    'DeckDetail',
+                    { title: item.title }
+                )}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subTitle}>{item.cards} cards</Text>
+            </TouchableOpacity>
         )
     }
     render() {
@@ -24,7 +29,7 @@ class Decks extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',      
+        justifyContent: 'center',
         backgroundColor: '#F5FCFF',
     },
     deck: {
@@ -37,28 +42,29 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 5,
-       
+
     },
     title: {
         fontSize: 50,
-        textAlign:'center',
-        color:'white'
+        textAlign: 'center',
+        color: 'white'
     },
     subTitle: {
-        fontSize:25,
-        textAlign:'center',
-        color:'white'
+        fontSize: 25,
+        textAlign: 'center',
+        color: 'white'
     }
 });
 
 function mapStateToProps(state) {
     return {
         decks: Object.keys(state)
-        .map((data) => 
-            ({
-                 title: data, 
-                 cards: state[data].questions.length,
-                 key: data }))
+            .map((data) =>
+                ({
+                    title: data,
+                    cards: state[data].questions.length,
+                    key: data
+                }))
     }
 }
 

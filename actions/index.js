@@ -34,18 +34,18 @@ function saveDeckTitle(title) {
         title
     }
 }
-export function handleAddCardToDeck(card) {
+export function handleAddCardToDeck(title, question) {
     return (dispatch) => {
-        return api.addCardToDeck(card).then(() => {
-            dispatch(addCardToDeck(card));
+        return api.addCardToDeck(title, question).then(() => {
+            dispatch(addCardToDeck(title, question));
         })
     }
 }
 
-function addCardToDeck(card) {
+function addCardToDeck(title, question) {
     return {
         type: ADD_CARD_TO_DECK,
-        card,
+        question,
         title
     }
 }
