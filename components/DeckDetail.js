@@ -52,7 +52,7 @@ function mapStateToProps(state, { navigation }) {
 
     return {
         title,
-        cards: state[title].questions.length
+        cards: state[title] ? state[title].questions.length : 0
     }
 }
 

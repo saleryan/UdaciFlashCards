@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { FontAwesome } from '@expo/vector-icons'
 import TextButton from './TextButton';
@@ -9,9 +9,16 @@ class Quiz extends Component {
     state = {
         index: 0,
         score: 0,
-        showAnswer: false
+        showAnswer: false,
+        bounceValue: new Animated.Value(1),
     }
     correct = () => {
+        const { bounceValue } = this.state;
+        Animated.sequence([
+            Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+            Animated.spring(bounceValue, { toValue: 1, friction: 4 })
+        ]).start()
+
         this.setState((prevState) => (
             {
                 index: prevState.index + 1,
@@ -22,6 +29,12 @@ class Quiz extends Component {
 
     }
     incorrect = () => {
+        const { bounceValue } = this.state;
+        Animated.sequence([
+            Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+            Animated.spring(bounceValue, { toValue: 1, friction: 4 })
+        ]).start()
+
         this.setState((prevState) => (
             {
                 ...prevState,
@@ -29,6 +42,7 @@ class Quiz extends Component {
                 showAnswer: false
             }
         ));
+
     }
 
     showAnswer = () => {
@@ -49,7 +63,7 @@ class Quiz extends Component {
 
     render() {
         const { questions } = this.props;
-        const { showAnswer, index, score } = this.state
+        const { showAnswer, index, score, bounceValue } = this.state
 
         if (questions.length === 0) {
             return (
@@ -61,7 +75,7 @@ class Quiz extends Component {
         }
         if (index > questions.length - 1) {
             clearLocalNotification();
-            const percentScore = score / questions.length * 100;
+            const percentScore = (score / questions.length * 100).toFixed(2);
             return (
                 <View style={styles.noCardsContainer}>
                     {percentScore >= 80 ? <FontAwesome name="trophy" size={100} style={{ color: 'gold', textAlign: 'center' }} /> :
@@ -77,21 +91,23 @@ class Quiz extends Component {
 
         return (
             <View style={styles.container}>
-                {!showAnswer && <View>
+                {!showAnswer && <Animated.View style={{ transform: [{ scale: bounceValue }] }}>
                     <Text style={styles.title}>{questions[index].question}</Text>
                     <TouchableOpacity onPress={this.showAnswer}>
                         <Text style={styles.answerBtn}>Answer</Text>
                     </TouchableOpacity>
-                </View>
+                </Animated.View>
                 }
-                {showAnswer && <View>
-                    <Text style={styles.title}>{questions[index].answer}</Text>
-                    <TouchableOpacity onPress={this.showAnswer}>
-                        <Text style={styles.answerBtn}>Question</Text>
-                    </TouchableOpacity>
-                </View>
+                {showAnswer &&
+                    <View>
+                        <Text style={styles.title}>{questions[index].answer}</Text>
+                        <TouchableOpacity onPress={this.showAnswer}>
+                            <Text style={styles.answerBtn}>Question</Text>
+                        </TouchableOpacity>
+                    </View>
                 }
                 <View>
+                    <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{index + 1} / {questions.length}</Text>
                     <TouchableOpacity style={styles.correctBtn} onPress={this.correct}>
                         <Text style={{ color: 'white' }}>Correct</Text>
                     </TouchableOpacity>

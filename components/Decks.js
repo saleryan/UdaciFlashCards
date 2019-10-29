@@ -17,6 +17,13 @@ class Decks extends Component {
     }
     render() {
         const { decks } = this.props;
+        if (decks.length === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.header}>There are no decks.</Text>
+                </View>
+            )
+        }
         return (
             <View style={styles.container}>
                 <FlatList data={decks} renderItem={this.renderData} />
@@ -31,6 +38,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    header: {
+        fontSize: 25,
+        textAlign: 'center',
+        color: 'black',
+        marginBottom: 10
     },
     deck: {
         flex: 1,

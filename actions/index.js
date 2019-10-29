@@ -37,7 +37,7 @@ function saveDeckTitle(title) {
 export function handleAddCardToDeck(title, question) {
     return (dispatch) => {
         return api.addCardToDeck(title, question).then(() => {
-            dispatch(addCardToDeck(title, question));
+            return dispatch(addCardToDeck(title, question));
         })
     }
 }
