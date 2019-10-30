@@ -14,10 +14,15 @@ class NewCard extends Component {
             this.setState((prevState) => ({ ...prevState, [name]: input }))
         }
     }
+
     submit = () => {
         const { question, answer } = this.state;
+        if (question.trim() == '' || answer.trim() == '') {
+            return alert("The question and answer fields are required.");
+        }
         this.props.dispatch(handleAddCardToDeck(this.props.title, { question, answer }));
         this.props.navigation.goBack();
+
     }
 
     render() {

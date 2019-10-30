@@ -11,8 +11,13 @@ class NewDeck extends Component {
     handleChange = (input) => {
         this.setState({ input })
     }
+  
     submit = () => {
         const { input } = this.state;
+        if (input.trim() == '') {
+            return alert("Deck Title is required.")
+        }
+
         this.props.dispatch(handleSaveDeckTitle(input));
 
         this.props.navigation.navigate(
@@ -20,6 +25,7 @@ class NewDeck extends Component {
             { title: input }
         );
         this.setState({ input: '' })
+
     }
     render() {
         const { input } = this.state;
@@ -27,7 +33,7 @@ class NewDeck extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.heading}>What is the title of the new Deck?</Text>
-                <TextInput onChangeText={this.handleChange} value={input} style={styles.input} />
+                <TextInput onChangeText={this.handleChange} value={input} style={styles.input} placeholder='Deck Title' />
 
                 <TextButton onPress={this.submit}>Submit</TextButton>
             </View>)
